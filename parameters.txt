@@ -1,0 +1,4 @@
+input_Map=/home/jin/Lingqiu_Jin/MapRead_08_15_2018/data/map_input.png
+output_Path=/home/jin/Lingqiu_Jin/MapRead_08_15_2018/data/
+
+black_and_white_threshold=120

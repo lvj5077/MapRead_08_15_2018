@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libimageOperators.a  CMakeFiles/imageOperators.dir/imageOperators.cpp.o
+/usr/bin/ranlib ../../lib/libimageOperators.a
