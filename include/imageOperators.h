@@ -15,7 +15,10 @@ using namespace std;
 using namespace cv;
 
 vector<Point> navigationManual (Mat I_in, vector<Point> pt_list);
-vector<Point> navigationSimple (Mat I_in, Point pt_a, Point pt_b);
+vector<Point> navigationSimple (Mat I_in, Point pt_a, Point pt_b,double scale);
 
 Mat annotate_map(Mat I_in,vector<Point> direction);
 Mat trimMap(Mat I_map,vector<Point> direction,int rt_margin);
+
+
+Mat black_and_white(Mat I_in, double t);

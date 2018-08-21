@@ -11,24 +11,45 @@ vector<Point> navigationManual (Mat I_in, vector<Point> pt_list){
 
 
 
+vector<Point> navigationSimple (Mat I_in, Point pt_a, Point pt_b, double scale){
 
-
-vector<Point> navigationSimple (Mat I_in, Point pt_a, Point pt_b){
+    cout <<"I am here!"<<endl;
     vector<Point> direction;
     direction.push_back(pt_a);
-    direction.push_back(pt_b);
+    
+    Size size(160,120);// 640X480the dst image size,e.g.100x100
+    Mat downSample;//dst image
+    resize(I_in,downSample,size);
 
-    // 我的想法是按着右墙半米走
-    // 基本上按 pixel scale算的
+    namedWindow( "downSample", WINDOW_AUTOSIZE);
+    imshow( "downSample", downSample );
+
+    // int margin = 35; // 0.5m/scale 
+
+    // Point direct = pt_b-pt_a;
+    // Vec2f cur_dir = (direct.x,direct.y);
+
+    // bool inRoad = checkCollision();
+
+    // while (inRoad){
+    //     inRoad = checkCollision();
+    // }
+
+    // // 我的想法是按着墙半米走
+    // // 基本上按 pixel scale算的 
+    // // 分8个方向 要是 没撞墙 就一直往前走
+
+
+    direction.push_back(pt_b);
 
     return direction;
 }
 
-Mat black_and_white(Mat I_in, double r){
+Mat black_and_white(Mat I_in, double t){
     Mat I_bw  = I_in.clone(); 
     for(int i =0; i < I_bw.rows; i++){
         for(int j = 0; j <I_bw.cols; j ++){
-            if(I_bw.at<uchar>(i,j)>100){
+            if(I_bw.at<uchar>(i,j)>t){
                 I_bw.at<uchar>(i,j) = 255; // white
             }
             else{

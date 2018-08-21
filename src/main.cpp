@@ -265,7 +265,7 @@ int main(int argc, char** argv)
     // 关键是A* 出图之后 都是极小的线段 不能很好的表示
     vector<Point> direction = navigationManual(I_map, pt_list);
 
-    // vector<Point> direction = navigationSimple(I_map, rt.pt_a,rt.pt_b);
+    // vector<Point> Testdirection = navigationSimple(I_map, rt.pt_a,rt.pt_b,0.3);
 
     
                                                         // A* 对没有downsample的图 太智障了 有点慢
@@ -287,8 +287,26 @@ int main(int argc, char** argv)
     // imwrite( resultName, trimmed_map );
     // waitKey(0);
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    resultName = outputPath+"trimmed_map.png";
+    // resultName = outputPath+"trimmed_map.png";
+    
+    // int erosion_size = 3;  
+    // Mat eroded_map = imread(resultName);
+    // Mat element = getStructuringElement(cv::MORPH_RECT,
+    //       cv::Size(2 * erosion_size + 1, 2 * erosion_size + 1),
+    //       cv::Point(erosion_size, erosion_size) );
 
+    // erode(eroded_map,eroded_map,element);  
+    // dilate(eroded_map,eroded_map,element);
+
+    // namedWindow( "eroded_map", CV_WINDOW_AUTOSIZE );   
+    // imshow( "eroded_map", eroded_map );
+    // // resultName = outputPath+"eroded_map.png";
+    // imwrite( resultName, eroded_map );
+    // waitKey(0); 
+
+
+    resultName = outputPath+"roi.png";
+    
     int erosion_size = 3;  
     Mat eroded_map = imread(resultName);
     Mat element = getStructuringElement(cv::MORPH_RECT,
@@ -300,38 +318,39 @@ int main(int argc, char** argv)
 
     namedWindow( "eroded_map", CV_WINDOW_AUTOSIZE );   
     imshow( "eroded_map", eroded_map );
-    resultName = outputPath+"eroded_map.png";
+    resultName = outputPath+"eroded_map_ROI.png";
     imwrite( resultName, eroded_map );
     waitKey(0); 
 
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Mat src = eroded_map.clone();
-    Mat dst, cdst;
-    Canny(src, dst, 20, 100, 3);
-    cvtColor(dst, cdst, CV_GRAY2BGR);
+//     Mat src = eroded_map.clone();
+//     Mat dst, cdst;
+//     Canny(src, dst, 20, 100, 3);
+//     cvtColor(dst, cdst, CV_GRAY2BGR);
 
-// dst: Output of the edge detector. It should be a grayscale image (although in fact it is a binary one)
-// lines: A vector that will store the parameters (x_{start}, y_{start}, x_{end}, y_{end}) of the detected lines
-// rho : The resolution of the parameter r in pixels. We use 1 pixel.
-// theta: The resolution of the parameter \theta in radians. We use 1 degree (CV_PI/180)
-// threshold: The minimum number of intersections to “detect” a line
-// minLinLength: The minimum number of points that can form a line. Lines with less than this number of points are disregarded.
-// maxLineGap: The maximum gap between two points to be considered in the same line.
+// // dst: Output of the edge detector. It should be a grayscale image (although in fact it is a binary one)
+// // lines: A vector that will store the parameters (x_{start}, y_{start}, x_{end}, y_{end}) of the detected lines
+// // rho : The resolution of the parameter r in pixels. We use 1 pixel.
+// // theta: The resolution of the parameter \theta in radians. We use 1 degree (CV_PI/180)
+// // threshold: The minimum number of intersections to “detect” a line
+// // minLinLength: The minimum number of points that can form a line. Lines with less than this number of points are disregarded.
+// // maxLineGap: The maximum gap between two points to be considered in the same line.
 
 
-    vector<Vec4i> lines;
-    HoughLinesP(dst, lines, 1, CV_PI/180, 50, 30, 18 );
-    for( size_t i = 0; i < lines.size(); i++ )
-    {
-        Vec4i l = lines[i];
-        line( cdst, Point(l[0], l[1]), Point(l[2], l[3]), Scalar(0,0,255), 1, CV_AA);
-    }
+//     vector<Vec4i> lines;
+//     HoughLinesP(dst, lines, 1, CV_PI/180, 50, 30, 18 );
+//     for( size_t i = 0; i < lines.size(); i++ )
+//     {
+//         Vec4i l = lines[i];
+//         line( cdst, Point(l[0], l[1]), Point(l[2], l[3]), Scalar(0,0,255), 1, CV_AA);
+//     }
     
-    imshow("source", src);
-    imshow("detected lines", cdst);
-    resultName = outputPath+"line_map.png";
-    imwrite( resultName, cdst );
-    waitKey(0);
+//     imshow("source", src);
+//     imshow("detected lines", cdst);
+//     resultName = outputPath+"line_map.png";
+//     imwrite( resultName, cdst );
+//     waitKey(0);
 
 
     return 0;
